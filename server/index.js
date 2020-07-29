@@ -1,19 +1,17 @@
-const express = require('express');
-const messageController = require('./controllers/message_controller')
+const express = require("express");
+const mc = require("./controllers/messages_controller");
+
 const app = express();
+
 app.use(express.json());
+
+const messagesBaseUrl = "/api/messages";
+app.post(messagesBaseUrl, mc.create);
+app.get(messagesBaseUrl, mc.read);
+app.put(`${messagesBaseUrl}/:id`, mc.update);
+app.delete(`${messagesBaseUrl}/:id`, mc.delete);
+
 const port = 3001;
-
-app.post('/api/messages', messageController.createMessage)
-app.get('/api/messages', messageController.readMessage);
-app.put('/api/message/update/:id', messageController.updateMessage);
-app.delete('api/messages/:id', messageController.deleteMessage);
-
-
-
-
-
 app.listen(port, () => {
-    console.log(`I'm listening on port: ${port}`)
-})
-
+  console.log(`Server listening on port ${port}`);
+});
